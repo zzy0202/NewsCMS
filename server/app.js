@@ -27,13 +27,12 @@ app.use((req, res, next) => {
 		}	else {
 				let token = req.headers.authorization;
 				token = token.split(" ")[1]
-				console.log(token);
 				let payload = JWT.verify(token);
 				if (payload){
 						let newToken = JWT.generate({
 								_id:payload._id,
 								username:payload,
-						},"10s");
+						},"1h");
 						res.header("Authorization",newToken);
 						next();
 				}

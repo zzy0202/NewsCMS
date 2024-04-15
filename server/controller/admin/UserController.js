@@ -8,7 +8,7 @@ const UserController = {
 						let {_id,username} = result[0];
 						let token = JWT.generate({
 								_id,username
-						},"10s");
+						},"1h");
 						res.header("Authorization",token);
 						res.send({
 								status:1,
