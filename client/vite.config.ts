@@ -16,6 +16,7 @@ export default defineConfig({
     }
   },
   server:{
+    hmr:true,
     proxy:{
       "/adminAPI":{
         target:"http://localhost:3000/",

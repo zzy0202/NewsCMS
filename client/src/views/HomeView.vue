@@ -6,28 +6,15 @@
           <el-menu
             default-active="2"
             class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
+            @select="switchRouter"
           >
-            <el-menu-item index="1">
-              <el-icon><setting /></el-icon>
+            <el-menu-item index="/home">
+              <el-icon><house /></el-icon>
               <span>Home Page</span>
             </el-menu-item>
-            <el-menu-item index="2">
+            <el-menu-item index="/userCenter">
               <el-icon><icon-menu /></el-icon>
               <span>User Center</span>
-            </el-menu-item>
-            <el-menu-item index="3" disabled>
-              <el-icon><document /></el-icon>
-              <span>User Management</span>
-            </el-menu-item>
-            <el-menu-item index="4">
-              <el-icon><setting /></el-icon>
-              <span>News Management</span>
-            </el-menu-item>
-            <el-menu-item index="5">
-              <el-icon><setting /></el-icon>
-              <span>Products Management</span>
             </el-menu-item>
           </el-menu>
         </el-col>
@@ -55,17 +42,19 @@
     Document,
     Menu as IconMenu,
     Location,
-    Setting,
+    House,
   } from '@element-plus/icons-vue'
+  import {useRouter} from "vue-router";
+
+  let router = useRouter();
   axios.get("/adminAPI/user/home").then(res=>{
     console.log(res.data);
   })
 
-  const handleOpen = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
-  }
-  const handleClose = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
+  let switchRouter = (value:string) =>{
+    router.push({
+      path:value
+    })
   }
 </script>
 
@@ -73,7 +62,9 @@
 .el-aside {
   height: 100vh;
   background-color: #efefef;
+  box-shadow: 5px 10px #888888 ;
   .el-col {
+    height: 100%;
     max-width: 100%;
     .el-menu-item span {
       font-size: 1rem;
@@ -94,6 +85,6 @@
   }
 }
 .el-main {
-  background-color: grey;
+  background-color: white;
 }
 </style>

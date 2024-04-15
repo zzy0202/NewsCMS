@@ -11,6 +11,7 @@ const UserController = {
 						},"1h");
 						res.header("Authorization",token);
 						res.send({
+								userInfo:result[0],
 								status:1,
 								msg:"login success"
 						})

@@ -20,6 +20,7 @@
 import {reactive, ref} from "vue";
 import axios from "axios";
 import {useRouter} from "vue-router";
+import {useUserStore} from "@/stores";
 
 let router = useRouter();
 let user = reactive({
@@ -31,9 +32,12 @@ let errorMessage = ref("");
 async function login() {
   let result = await axios.post("/adminAPI/user/login", {
     username: user.username,
-    password: user.password
+    password: user.password,
   })
   if (result.data.status) {
+    let userStore = useUserStore();
+    userStore.modifyUserInfo(result.data.userInfo);
+    console.log(userStore.userInfo);
     await router.push({
       path: "/"
     })
