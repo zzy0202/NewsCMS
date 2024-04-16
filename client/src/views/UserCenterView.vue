@@ -5,7 +5,7 @@
     </el-breadcrumb>
     <div class="contentUnit">
       <div class="showUserProfile">
-        <el-avatar :size="100" :icon="UserFilled"/>
+        <el-avatar :src="avatarURL" :size="100" :icon="UserFilled"/>
         <span class="text username">{{ userInfo.username }}</span>
         <span class="text">{{ adminRole }}</span>
       </div>
@@ -22,16 +22,18 @@
             <el-form-item label="Avatar">
               <el-upload
                 class="avatar-uploader"
-                action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
                 :show-file-list="false"
-                :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
+                :on-change="onChangePicture"
+                :auto-upload="false"
+                :limit="1"
               >
-                <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                <img v-if="form.avatar" :src="form.avatar" class="avatar" />
                 <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
               </el-upload>
             </el-form-item>
           </el-form>
+          <el-button @click="submitInfo" style="margin: 0 auto" type="primary">Submit</el-button>
         </div>
       </div>
     </div>
@@ -42,34 +44,34 @@
 import {UserFilled,Plus} from '@element-plus/icons-vue'
 import {useUserStore} from "@/stores";
 import {computed, reactive,ref} from "vue";
-import { ElMessage,type UploadProps } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import axios from "axios";
+import {searchForWorkspaceRoot} from "vite";
 
 let {userInfo} = useUserStore();
 let adminRole = computed({
   get() {
-    return userInfo ? "Admin" : "User";
+    return userInfo.isAdmin ? "Admin" : "User";
   },
   set() {
 
   }
 })
 
+let avatarURL = ref(`http://localhost:3000/uploads/${userInfo.avatar}`)
+
 const form = reactive({
-  username: "",
-  introduction:"",
+  username: userInfo.username,
+  introduction:userInfo.introduction,
   avatar:"",
+  file:{},
+  _id:userInfo._id
 });
 
-const imageUrl = ref('')
+let imageUrl = ref("")
 
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
-  response,
-  uploadFile
-) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-}
 
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+const beforeAvatarUpload= (rawFile:any) => {
   if (rawFile.type !== 'image/jpeg') {
     ElMessage.error('Avatar picture must be JPG format!')
     return false
@@ -78,6 +80,38 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
     return false
   }
   return true
+}
+
+function onChangePicture(file:any) {
+  form.avatar = URL.createObjectURL(file.raw);
+  form.file = file.raw;
+  console.log(file.raw)
+}
+
+async function submitInfo() {
+  let params = new FormData();
+  for(let i in form) {
+    params.append(i,form[i]);
+  }
+  console.log(form);
+  console.log(params)
+  let result =await axios.post("/adminAPI/user/uploadInfo",params,{
+    headers:{
+      "Content-Type":"multipart/form-data",
+    }
+  })
+  if(result.data.ok) {
+    ElMessage({
+      message:result.data.msg,
+      type:'success'
+    })
+  }
+  else {
+    ElMessage({
+      message:result.data.msg,
+      type:'error'
+    })
+  }
 }
 </script>
 
@@ -143,6 +177,8 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
       }
       .formContainer {
         margin-top: 30px;
+        display: flex;
+        flex-direction: column;
         .el-form-item__label-wrap {
           margin-left: 0 !important;
           label,div {
@@ -156,6 +192,18 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
         .el-form-item__content{
           .el-textarea,.el-input {
             width: 80%;
+          }
+          .avatar-uploader {
+            width: 175px !important;
+            height: 175px !important;
+            .el-upload {
+              width: 175px;
+              height: 175px;
+              img {
+                width: 175px;
+                height: 175px;
+              }
+            }
           }
         }
         .avatar-uploader .el-upload {

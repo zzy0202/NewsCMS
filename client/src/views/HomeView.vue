@@ -48,9 +48,6 @@
   import {useUserStore} from "@/stores";
 
   let router = useRouter();
-  axios.get("/adminAPI/user/home").then(res=>{
-    console.log(res.data);
-  })
 
   let switchRouter = (value:string) =>{
     router.push({

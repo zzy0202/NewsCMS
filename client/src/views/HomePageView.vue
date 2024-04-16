@@ -5,7 +5,7 @@
     </el-breadcrumb>
     <div class="userContent">
       <div class="avatarBox">
-        <el-avatar :size="100" :icon="UserFilled"/>
+        <el-avatar :src="avatarURL" :size="100" :icon="UserFilled"/>
       </div>
       <span class="welcomeText">{{welcomeText}}</span>
     </div>
@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import {UserFilled} from '@element-plus/icons-vue'
 import {useUserStore} from "@/stores";
-import {computed} from "vue";
+import {computed,ref} from "vue";
 
 let {userInfo} = useUserStore();
 
@@ -34,6 +34,16 @@ let welcomeText = computed({
 
   }
 })
+
+let avatarURL = computed({
+  get() {
+    return `http://localhost:3000/uploads/${userInfo.avatar}`
+  },
+  set() {
+
+  }
+})
+
 
 </script>
 
