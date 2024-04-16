@@ -24,7 +24,7 @@
           <div class="content">
             <h3>Company Manage System</h3>
             <div class="userContent">
-              <span>Welcome back, username</span>
+              <span>Welcome back, {{userStore.userInfo.username}}</span>
             </div>
           </div>
         </el-header>
@@ -45,6 +45,7 @@
     House,
   } from '@element-plus/icons-vue'
   import {useRouter} from "vue-router";
+  import {useUserStore} from "@/stores";
 
   let router = useRouter();
   axios.get("/adminAPI/user/home").then(res=>{
@@ -56,6 +57,8 @@
       path:value
     })
   }
+
+  let userStore = useUserStore();
 </script>
 
 <style scoped lang="less">
