@@ -37,7 +37,6 @@ async function login() {
   if (result.data.status) {
     let userStore = useUserStore();
     userStore.modifyUserInfo(result.data.userInfo);
-    console.log(userStore.userInfo);
     await router.push({
       path: "/"
     })

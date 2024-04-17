@@ -85,7 +85,6 @@ const beforeAvatarUpload= (rawFile:any) => {
 function onChangePicture(file:any) {
   form.avatar = URL.createObjectURL(file.raw);
   form.file = file.raw;
-  console.log(file.raw)
 }
 
 async function submitInfo() {
@@ -93,8 +92,6 @@ async function submitInfo() {
   for(let i in form) {
     params.append(i,form[i]);
   }
-  console.log(form);
-  console.log(params)
   let result =await axios.post("/adminAPI/user/uploadInfo",params,{
     headers:{
       "Content-Type":"multipart/form-data",
