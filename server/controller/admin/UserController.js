@@ -24,24 +24,71 @@ const UserController = {
 		},
 
 		uploadInfo: async (req, res) => {
-				console.log(req.file.filename,req.body)
-				let {username,introduction,_id} = req.body;
+				console.log(req.file.filename, req.body);
+				let {username, introduction, _id} = req.body;
 				let result = await UserService.uploadInfo({
-						avatar:req.file.filename,
+						avatar: req.file.filename,
 						username,
 						introduction,
 						_id,
 				});
-				if(result.modifiedCount) {
+				if (result.modifiedCount) {
 						res.send({
-								ok:1,
-								msg:"Upload Info succeed",
+								ok: 1,
+								msg: "Upload Info succeed",
+						})
+				} else {
+						res.send({
+								ok: 0,
+								msg: "Upload info failed"
 						})
 				}
-				else{
+		},
+
+		manageEditor: async (req, res) => {
+				let result = await UserService.manageEditor(req.body);
+				if (result.length > 0) {
+						res.send({
+								ok: 1,
+								msg: "Insert success!"
+						})
+				} else {
+						res.send({
+								ok: 0,
+								msg: "Insert fail!"
+						})
+				}
+		},
+		getUserList: async (req, res) => {
+				let result = await UserService.getUserList();
+				console.log(result);
+				res.send({
+						ok: 1,
+						data: result,
+				})
+		},
+		deleteUser: async (req, res) => {
+				let result = await UserService.deleteUser(req.body._id);
+				if (result.deleteCount !== 0) {
+						res.send({
+								ok: 1,
+								msg: "delete success",
+						})
+				}
+		},
+		editEditor:async (req,res) => {
+				let result = await UserService.editEditor(req.body);
+				console.log(result)
+				if(result.modifiedCount!==0) {
+						res.send({
+								ok:1,
+								msg:"Update info success"
+						})
+				}
+				else {
 						res.send({
 								ok:0,
-								msg:"Upload info failed"
+								msg:"Update info fail"
 						})
 				}
 		}
