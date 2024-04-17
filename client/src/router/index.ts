@@ -7,6 +7,7 @@ import ManageEditorView from "@/views/ManageEditorView.vue";
 import ModfiyEditorView from "@/views/ModfiyEditorView.vue";
 import PageNotFound from "@/views/PageNotFound.vue";
 import {useUserStore} from "@/stores";
+import CreateNewsView from "@/views/createNewsView.vue";
 
 
 const router = createRouter({
@@ -43,6 +44,11 @@ const router = createRouter({
           meta: {
             requiresAdmin: true,
           }
+        },
+        {
+          path: '/createNews',
+          name: 'createNews',
+          component: CreateNewsView,
         }
       ]
     },

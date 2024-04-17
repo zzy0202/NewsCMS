@@ -1,7 +1,7 @@
 <template>
   <div class="common-layout">
     <el-container>
-      <el-aside width="17vw">
+      <el-aside width="19vw">
         <el-col :span="12">
           <el-menu
             default-active="2"
