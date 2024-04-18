@@ -40,7 +40,7 @@
                 <span>Manage News</span>
               </template>
               <el-menu-item index="/createNews">Create News</el-menu-item>
-              <el-menu-item index="1/newsList">News List</el-menu-item>
+              <el-menu-item index="/manageNewsList">News List</el-menu-item>
             </el-sub-menu>
           </el-menu>
         </el-col>

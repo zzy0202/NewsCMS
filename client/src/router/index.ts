@@ -8,6 +8,7 @@ import ModfiyEditorView from "@/views/ModfiyEditorView.vue";
 import PageNotFound from "@/views/PageNotFound.vue";
 import {useUserStore} from "@/stores";
 import CreateNewsView from "@/views/createNewsView.vue";
+import ManageNewsList from "@/views/ManageNewsList.vue";
 
 
 const router = createRouter({
@@ -49,6 +50,11 @@ const router = createRouter({
           path: '/createNews',
           name: 'createNews',
           component: CreateNewsView,
+        },
+        {
+          path: '/manageNewsList',
+          name: 'manageNewsList',
+          component: ManageNewsList,
         }
       ]
     },
@@ -73,13 +79,12 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   let {userInfo} = useUserStore();
-  if(to.meta.requiresAdmin) {
-    if(userInfo.isAdmin) {
+  if (to.meta.requiresAdmin) {
+    if (userInfo.isAdmin) {
       next();
-    }
-    else {
+    } else {
       next({
-        path:"/404",
+        path: "/404",
       })
     }
   }

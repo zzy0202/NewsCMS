@@ -50,6 +50,7 @@ let form = reactive({
   newsContent: "",
   newsCover: '',
   dates: '',
+  isPublish:false,
 })
 
 let rules = reactive({
