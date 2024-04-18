@@ -4,9 +4,10 @@ const Schema = mongoose.Schema;
 let NewsType = {
 		title:String,
 		newsContent:String,
-		date:String,
+		dates:String,
 		newsCover:String,
 		newsType:String,
+		isPublish:Boolean,
 }
 
 const NewsModel = mongoose.model("news",new Schema(NewsType));

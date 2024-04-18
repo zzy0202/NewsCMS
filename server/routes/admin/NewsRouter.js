@@ -8,5 +8,7 @@ const upload = multer({
 )
 
 NewsRouter.post("/adminAPI/news/addNews",upload.single("newsCover"),NewsController.addNews);
+NewsRouter.get("/adminAPI/news/getNewsList",NewsController.getNewsList);
+NewsRouter.post("/adminAPI/news/modifyNews",NewsController.modifyNews);
 
 module.exports = NewsRouter;
